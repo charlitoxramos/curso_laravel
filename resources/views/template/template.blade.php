@@ -16,14 +16,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-    <div class="container">
-      
-      <img src="img/escudo.png" class="mt-2" style="width:40px;height:40px;">
-      <span class="brand-text">Proyecto de Laravel - CRUD</span>
-      <span class="brand-text font-weight-light">Carlos Adolfo Ramos Ramírez</span>
-      
-    </div>
+  <nav class="main-header navbar-expand-md navbar-light navbar-white ml-5 mr-5">
+    
+      <div class="d-flex align-items-center justify-content-between">
+        
+        <span class="brand-text">Proyecto de Laravel - CRUD</span>
+        <img src="img/escudo.png" class="mt-2 mb-2" style="width:40px;height:40px;">
+        <span class="brand-text font-weight-light">Carlos Adolfo Ramos Ramírez</span>
+      </div>
+    
   </nav>
   <!-- /.navbar -->
 
@@ -33,7 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-12 text-center">
             <h1 class="m-0"> @yield('nombre_tabla')</h1>
           </div><!-- /.col -->
           
