@@ -11,67 +11,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.css') }}">
+
+  <!--bootstrap icons-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ asset('css/sweetalert2-theme-bootstrap-4/bootstrap-4.css')}}">
+
+  <!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script language="JavaScript" src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<script language="JavaScript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!--validate-->
+<script src="{{ asset('plugins/jquery-ui/jquery-ui.js') }}"></script>
+<script src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.js') }}"></script>
+<!-- Toastr -->
+<script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script language="JavaScript" src="{{ asset('js/adminlte.min.js') }}"></script>
+<!-- DataTables  & Plugins -->
+  <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.js') }}"></script>
+  <script src="{{ asset('plugins/jszip/jszip.js') }}"></script>
+  <script src="{{ asset('plugins/pdfmake/pdfmake.js') }}"></script>
+  <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.js') }}"></script>
+  <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.js') }}"></script>
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
 
-  <!-- Navbar -->
-  <nav class="main-header navbar-expand-md navbar-light navbar-white ml-5 mr-5">
-    
-      <div class="d-flex align-items-center justify-content-between">
-        
-        <span class="brand-text">Proyecto de Laravel - CRUD</span>
-        <img src="img/escudo.png" class="mt-2 mb-2" style="width:40px;height:40px;">
-        <span class="brand-text font-weight-light">Carlos Adolfo Ramos Ramírez</span>
-      </div>
-    
-  </nav>
-  <!-- /.navbar -->
+  @include('template.encabezado')
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-12 text-center">
-            <h1 class="m-0"> @yield('nombre_tabla')</h1>
-          </div><!-- /.col -->
-          
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+  @include('template.cuerpo')
 
-    <!-- Main content -->
-    <div class="content">
-      <div class="container">
-        @yield('contenido')
-      </div>
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer p-0">
-    
-    <div class="text-center">
-      <img src="img/footer_logo.png" class="mt-2" style="width:160px;height:40px;">
-    </div>
-    
-  </footer>
+  @include('template.pie')
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-<!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
 
 </body>
 </html>
