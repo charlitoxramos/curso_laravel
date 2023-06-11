@@ -238,6 +238,9 @@ $(document).ready(function () {
                             <button type="button" class="eliminar btn btn-danger btn-sm ml-1" title="Eliminar">
                               <i class="bi bi-trash"></i>
                             </button>
+                            <button type="button" class="informe btn btn-warning btn-sm ml-1" title="Ver Reporte">
+                              <i class="bi bi-file-earmark-medical"></i>
+                            </button>
                             `;
               
               return respuesta;
@@ -368,6 +371,19 @@ $(document).ready(function () {
             }
           })
     });
+
+    $('#mitabla tbody').on('click', '.editar', function () {
+
+      var row = $(this).closest('tr');
+
+      var id = $('#mitabla').DataTable().row( row ).data().id;
+      var nombre = $('#mitabla').DataTable().row( row ).data().nombre;
+      var fuente = $('#mitabla').DataTable().row( row ).data().fuente;
+      var planificado = $('#mitabla').DataTable().row( row ).data().planificado;
+      var patrocinado = $('#mitabla').DataTable().row( row ).data().patrocinado;
+      var propios= $('#mitabla').DataTable().row( row ).data().propios;
+
+});
 
     $(".cerrar_modal").click(function(){
       $("#modal-crear-proyecto").modal('toggle'); 
