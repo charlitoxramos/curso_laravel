@@ -8,7 +8,7 @@
 <div class="card shadow">
   <div class="card-body">
     <table id="mitabla" class="display" style="width:100%">
-    <thead>
+      <thead>
             <tr>
                 <th>Id</th>
                 <th>Nombre del Proyecto</th>
@@ -25,19 +25,21 @@
 <div class="modal fade" id="modal-crear-proyecto"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
   <div class="modal-dialog">
       <div class="modal-content">
-      <div class="modal-header">
-          <h4 class="modal-title">Crear Proyecto</h4>
-          <button type="button" class="cerrar_modal close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-          </button>
-      </div>
-      <form name="crear-proyecto-form" id="crear-proyecto-form" action="" method="post">
-          <div class="modal-body">       
+        <div class="modal-header">
+            <h4 class="modal-title">Crear Proyecto</h4>
+            <button type="button" class="cerrar_modal close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form method="POST" action="{{ route('proyecto.crear') }}" name="crear-proyecto-form" id="crear-proyecto-form" >
+          @csrf
+            <div class="modal-body">       
               <div class="row">
                   <div class="col-sm-12">
                     <!-- text input -->
                     <div class="form-group">
                         <label for='nombre_proyecto'>Nombre del Proyecto</label>
+                        
                         <input id="accion" name="accion" type="hidden" value="crear">
                         <input id="id_proyecto" name="id_proyecto" type="hidden" value="">
                         <input id="nombre_proyecto" name="nombre_proyecto" type="text" class="form-control" placeholder="Nombre del Proyecto" maxlength='500' require>
@@ -90,12 +92,12 @@
                       <div id="formulario_proyecto_err"></div>
                   </div>
               </div>
-          </div>
+            </div>
           <div class="modal-footer justify-content-between">
           <button type="button" class="cerrar_modal btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" id="boton-guardar-proyecto" name="boton-guardar-proyecto" class="btn btn-primary">Guardar</button>
+          <input type="submit" value="Guardar" id="boton-guardar-proyecto" name="boton-guardar-proyecto" class="btn btn-primary">
           </div>
-      </form>
+        </form>
       </div>
       <!-- /.modal-content -->
   </div>
@@ -173,6 +175,25 @@ $(document).ready(function () {
 
 
     $('#mitabla').DataTable({
+      ajax:{
+        url: "/proyecto/lista", 
+        dataSrc:"",
+        type: "GET",
+        beforeSend: function () { 
+                      
+        },
+        complete: function (data) { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          console.log(data);                                
+        },
+      },
+      columns: [
+        { data: 'id', },
+        { data: 'nombre', },
+        { data: 'fuente', },
+        { data: 'planificado', },
+        { data: 'patrocinado', },
+        { data: 'propios', },
+      ],
       language: {
         url: "js/lang/Spanish.json",        
       },
@@ -234,7 +255,7 @@ $(document).ready(function () {
                                   $('#modal-crear-proyecto').modal('toggle');
 
                                   //actualiza datatable() y lo regresa al inicio
-                                  //$('#mitabla').DataTable().ajax.reload();
+                                  $('#mitabla').DataTable().ajax.reload();
 
                                   
                               }
@@ -248,7 +269,7 @@ $(document).ready(function () {
                                   $('#modal-crear-proyecto').modal('toggle');
 
                                   //actualizar datatable() en la pagina en la que me encuentro
-                                  //$('#mitabla').DataTable().ajax.reload(null,false);
+                                  $('#mitabla').DataTable().ajax.reload(null,false);
 
                               }
 
@@ -274,7 +295,11 @@ $(document).ready(function () {
         
         if(accion == "crear")
         {
-            $("#modal-crear-proyecto").find("input,textproducto,select").val("");
+            $("#nombre_proyecto").val("");
+            $("#fuente_fondos").val("");
+            $("#monto_planificado").val("");
+            $("#monto_patrocinado").val("");
+            $("#monto_fondos_propios").val("");
             
             $('#accion').val('crear'); 
 

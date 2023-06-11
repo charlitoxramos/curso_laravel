@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `proyectos` (
-  `Id` int(11) NOT NULL COMMENT 'Identificador del Proyecto',
+  `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador del Proyecto',
   `NombreProyecto` varchar(500) NOT NULL COMMENT 'Nombre del Proyecto',
   `fuenteFondos` varchar(500) NOT NULL COMMENT 'Nombre de la Fuente de Fondos de el Proyecto',
   `MontoPlanificado` double NOT NULL COMMENT 'Valor Fondo que se tiene planificado para un proyecto',

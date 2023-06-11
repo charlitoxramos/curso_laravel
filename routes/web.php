@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProyectoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('principal');
 });
+
+Route::get('/proyecto/lista',[App\Http\Controllers\ProyectoController::class,'lista']);
+
+Route::post('/proyecto/crear',[App\Http\Controllers\ProyectoController::class,'crear'])->name('proyecto.crear');
