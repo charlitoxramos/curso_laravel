@@ -24,3 +24,5 @@ Route::post('/proyecto/crear',[App\Http\Controllers\ProyectoController::class,'c
 Route::put('/proyecto/editar',[App\Http\Controllers\ProyectoController::class,'editar'])->name('proyecto.editar');
 
 Route::delete('/proyecto/eliminar',[App\Http\Controllers\ProyectoController::class,'eliminar'])->name('proyecto.eliminar');
+
+Route::get('pdf/{id}', [App\Http\Controllers\ProyectoController::class,'getPDF'])->name('proyectos.pdf');

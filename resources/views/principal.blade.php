@@ -231,6 +231,7 @@ $(document).ready(function () {
           "width": "10%",
           responsivePriority: 2,
           data: function ( data, type, full, meta ) {
+            var id_proyecto = data.id;
               var respuesta = '';
               respuesta += `<button type="button" class="editar btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#modal-crear-proyecto" data-titulo="Editar Proyecto" data-accion="editar" title="Editar">
                               <i class="bi bi-pencil-square"></i>
@@ -238,10 +239,16 @@ $(document).ready(function () {
                             <button type="button" class="eliminar btn btn-danger btn-sm ml-1" title="Eliminar">
                               <i class="bi bi-trash"></i>
                             </button>
+                            <a href="{{ url('pdf/${id_proyecto}') }}" target="_blank" class="informe btn btn-warning btn-sm ml-1">
+                              <i class="bi bi-file-earmark-medical"></i>
+                            </a>
+                            `;
+
+                            /*
                             <button type="button" class="informe btn btn-warning btn-sm ml-1" title="Ver Reporte">
                               <i class="bi bi-file-earmark-medical"></i>
                             </button>
-                            `;
+                            */
               
               return respuesta;
           },
@@ -372,7 +379,8 @@ $(document).ready(function () {
           })
     });
 
-    $('#mitabla tbody').on('click', '.editar', function () {
+    //Informe
+    /*$('#mitabla tbody').on('click', '.informe', function () {
 
       var row = $(this).closest('tr');
 
@@ -382,8 +390,52 @@ $(document).ready(function () {
       var planificado = $('#mitabla').DataTable().row( row ).data().planificado;
       var patrocinado = $('#mitabla').DataTable().row( row ).data().patrocinado;
       var propios= $('#mitabla').DataTable().row( row ).data().propios;
+      
+      datos = {
+            'nombre': nombre,
+            'fuente': fuente,
+            'planificado': planificado,
+            'patrocinado': patrocinado,
+            'propios': propios,
+          };
+      
+      url = 'pdf';
+      type = 'GET';
 
-});
+      $.ajax({
+          "url": url,
+          //"data": datos,
+          "type": type,
+          //headers: {
+          //  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          //},
+          success: function (data) {
+            console.log(data);
+            if(data.Respuesta=='Ok')
+            {
+              //mostrar un mensaje
+              var Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000
+              });
+              
+             
+              Toast.fire({
+                  icon: 'success',
+                  title: 'Reporte del Proyecto'
+              })
+
+                  
+            }
+          },
+          error: function (jqXHR, status, err) {
+            console.log(err);
+          },
+        });
+
+});*/
 
     $(".cerrar_modal").click(function(){
       $("#modal-crear-proyecto").modal('toggle'); 
