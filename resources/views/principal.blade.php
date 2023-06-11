@@ -16,6 +16,7 @@
                 <th>Monto Planificado</th>
                 <th>Monto Patrocinado</th>
                 <th>Monto Fondos Propios</th>
+                <th>Acciones</th>
             </tr>
         </thead>
     </table>
@@ -31,17 +32,18 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form method="POST" action="{{ route('proyecto.crear') }}" name="crear-proyecto-form" id="crear-proyecto-form" >
+        <!--<form method="POST" action="{{ route('proyecto.crear') }}" name="crear-proyecto-form" id="crear-proyecto-form" >-->
+        <form method="POST" action="#" name="crear-proyecto-form" id="crear-proyecto-form" >
           @csrf
-            <div class="modal-body">       
+            <div class="modal-body">
+            <input id="accion" name="accion" type="hidden" value="crear">
+                        <input id="id_proyecto" name="id_proyecto" type="hidden" value="">
+                               
               <div class="row">
                   <div class="col-sm-12">
                     <!-- text input -->
                     <div class="form-group">
                         <label for='nombre_proyecto'>Nombre del Proyecto</label>
-                        
-                        <input id="accion" name="accion" type="hidden" value="crear">
-                        <input id="id_proyecto" name="id_proyecto" type="hidden" value="">
                         <input id="nombre_proyecto" name="nombre_proyecto" type="text" class="form-control" placeholder="Nombre del Proyecto" maxlength='500' require>
                         <div id="err_nombre_proyecto"></div>
                     </div>
@@ -95,7 +97,7 @@
             </div>
           <div class="modal-footer justify-content-between">
           <button type="button" class="cerrar_modal btn btn-default" data-dismiss="modal">Cerrar</button>
-          <input type="submit" value="Guardar" id="boton-guardar-proyecto" name="boton-guardar-proyecto" class="btn btn-primary">
+          <input type="button" value="Guardar" id="boton-guardar-proyecto" name="boton-guardar-proyecto" class="btn btn-primary">
           </div>
         </form>
       </div>
@@ -183,16 +185,65 @@ $(document).ready(function () {
                       
         },
         complete: function (data) { // Set our complete callback, adding the .hidden class and hiding the spinner.
-          console.log(data);                                
+          //console.log(data);     
+          
+          
+          
         },
       },
       columns: [
-        { data: 'id', },
-        { data: 'nombre', },
-        { data: 'fuente', },
-        { data: 'planificado', },
-        { data: 'patrocinado', },
-        { data: 'propios', },
+        { 
+          data: 'id',
+          visible: false, 
+        },
+        { 
+          data: 'nombre', 
+        },
+        { 
+          data: 'fuente', 
+        },
+        { 
+          data: 'planificado', 
+          "render": function (data) 
+          {
+              var respuesta = '$'+(data).toFixed(2);
+              return respuesta;
+          }, 
+        },
+        { 
+          data: 'patrocinado', 
+          "render": function (data) 
+          {
+              var respuesta = '$'+(data).toFixed(2);
+              return respuesta;
+          },
+        },
+        { 
+          data: 'propios', 
+          "render": function (data) 
+          {
+              var respuesta = '$'+(data).toFixed(2);
+              return respuesta;
+          },
+        },
+        {       
+          "orderable": false,
+          "width": "10%",
+          responsivePriority: 2,
+          data: function ( data, type, full, meta ) {
+              var respuesta = '';
+              respuesta += `<button type="button" class="editar btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#modal-crear-proyecto" data-titulo="Editar Proyecto" data-accion="editar" title="Editar">
+                              <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="eliminar btn btn-danger btn-sm ml-1" title="Eliminar">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                            `;
+              
+              return respuesta;
+          },
+          "className": "align-middle text-nowrap", 
+        }, 
       ],
       language: {
         url: "js/lang/Spanish.json",        
@@ -201,7 +252,7 @@ $(document).ready(function () {
               "<'row'<'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 buscar-dt'B><'col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 buscar-dt'f>>" +
               "<'row'<'col-12'tr>>" +
               "<'row'<'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6'i><'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6'p>>",
-      order: [1, "desc"],//La columna 1 define el orden en el que aparecen los elementos
+      order: [1, "asc"],//La columna 1 define el orden en el que aparecen los elementos
       buttons: [
         {
           name: "botonCrear",
@@ -214,6 +265,108 @@ $(document).ready(function () {
           }
         }
       ],  
+    });
+
+    $('#mitabla tbody').on('click', '.editar', function () {
+
+        $('#modal-crear-proyecto').modal('show');
+        
+        var row = $(this).closest('tr');
+
+        var id = $('#mitabla').DataTable().row( row ).data().id;
+        var nombre = $('#mitabla').DataTable().row( row ).data().nombre;
+        var fuente = $('#mitabla').DataTable().row( row ).data().fuente;
+        var planificado = $('#mitabla').DataTable().row( row ).data().planificado;
+        var patrocinado = $('#mitabla').DataTable().row( row ).data().patrocinado;
+        var propios= $('#mitabla').DataTable().row( row ).data().propios;
+        
+        $('#id_proyecto').val(id);
+        $('#nombre_proyecto').val(nombre);
+        $('#fuente_fondos').val(fuente);
+        $('#monto_planificado').val(planificado);
+        $('#monto_patrocinado').val(patrocinado);
+        $('#monto_fondos_propios').val(propios);
+        $('#accion').val('editar');
+        $('#modal-crear-proyecto').find('.modal-title').text("Editar Proyecto");      
+        $('#modal-crear-proyecto').find('#boton-guardar-proyecto').val('Actualizar');
+        
+        
+    });
+
+    //Boton Eliminar
+    $('#mitabla tbody').on('click', '.eliminar', function () {
+        var infoPages = $('#mitabla').DataTable().page.info();
+
+        var row = $(this).closest('tr');
+        
+        var id = $('#mitabla').DataTable().row( row ).data().id;
+        
+        Swal.fire({
+            title: '¿Esta seguro?',
+            text: "¡Esta acción no se puede deshacer!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Deseo Borrar el Registro',
+            cancelButtonText: "No, ¡Cancelar!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                
+                $.ajax({
+                  url: '/proyecto/eliminar/',
+                  data: {
+                    'id': id,
+                  },
+                  type: 'DELETE',
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function (data) {
+                    if(data.Respuesta=='Ok')
+                    {  
+                      //actualizar datatable();
+                      if ( ( infoPages.page + 1 ) == infoPages.pages )//Si esta en la ultima pagina
+                      {
+                          //si solo hay un registro
+                          if ( infoPages.start == ( infoPages.end-1 ) )
+                          {
+                              //si ya no hay ningun registro
+                              if(infoPages.page == 0)
+                              {
+                                  $('#mitabla').DataTable().ajax.reload();
+                              }
+                              else 
+                              {
+                                  //Ya que ya sabemos que va a borrar el ultimo registro, nos movemos a la pagina anterior
+                                  $("#mitabla").DataTable().page(infoPages.page-1).draw('page');
+                                  //y entonces actualizamos el datatable sin que cambie de pagina
+                                  $('#mitabla').DataTable().ajax.reload(null,false);
+                              }
+                          }
+                          else // si esta en la ultima pagina pero aún hay registros
+                          {
+                              //actualizar datatable() en la misma pagina donde esta
+                              $('#mitabla').DataTable().ajax.reload(null,false);    
+                          }
+                      }
+                      else //Si no esta en la ultima página
+                      {
+                          //actualizar datatable() en la misma pagina donde esta
+                          $('#mitabla').DataTable().ajax.reload(null,false);
+                      }      
+                                                  
+                      
+                      Swal.fire(
+                          'Borrado',
+                          'El registro se ha borrado.',
+                          'success'
+                      )
+                    }             
+                  }
+                });               
+            }
+          })
     });
 
     $(".cerrar_modal").click(function(){
@@ -237,41 +390,90 @@ $(document).ready(function () {
       $("#crear-proyecto-form").validate(validationMessages)
       if ($("#crear-proyecto-form").valid()) {
 
-        //mostrar un mensaje y cerrar el modal 
-        var Toast = Swal.mixin({
+        var url = "";
+        var datos = {};
+        var type = "";
+        
+        if(accion=="crear")
+        {
+          url = '/proyecto/crear';
+          datos = {
+            nombre: $('#nombre_proyecto').val(),
+            fuente: $('#fuente_fondos').val(),
+            planificado: $('#monto_planificado').val(),
+            patrocinado: $('#monto_patrocinado').val(),
+            propios: $('#monto_fondos_propios').val(),
+          };
+          type = 'POST';
+        }
+        else 
+        {
+          url = '/proyecto/editar';
+          datos = {
+            id: $('#id_proyecto').val(),
+            nombre: $('#nombre_proyecto').val(),
+            fuente: $('#fuente_fondos').val(),
+            planificado: $('#monto_planificado').val(),
+            patrocinado: $('#monto_patrocinado').val(),
+            propios: $('#monto_fondos_propios').val(),
+          };
+          type = 'PUT';
+        }
+       
+
+        $.ajax({
+          "url": url,
+          "data": datos,
+          "type": type,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function (data) {
+            if(data.Respuesta=='Ok')
+            {
+              //mostrar un mensaje y cerrar el modal 
+              var Toast = Swal.mixin({
                                         toast: true,
                                         position: 'top-end',
                                         showConfirmButton: false,
                                         timer: 3000
-                              });
-                              
-                              if(accion=='crear')
-                              {
-                                  Toast.fire({
-                                      icon: 'success',
-                                      title: '¡El registro se guardo con éxito!'
-                                  })
+              });
+              
+              if(accion=='crear')
+              {
+                  Toast.fire({
+                      icon: 'success',
+                      title: '¡El registro se guardo con éxito!'
+                  })
 
-                                  $('#modal-crear-proyecto').modal('toggle');
+                  $('#modal-crear-proyecto').modal('toggle');
 
-                                  //actualiza datatable() y lo regresa al inicio
-                                  $('#mitabla').DataTable().ajax.reload();
+                  //actualiza datatable() y lo regresa al inicio
+                  $('#mitabla').DataTable().ajax.reload();
 
-                                  
-                              }
-                              else if(accion=='editar')
-                              {
-                                  Toast.fire({
-                                      icon: 'success',
-                                      title: '¡El registro se ha editado con éxito!'
-                                  })
+                  
+              }
+              else if(accion=='editar')
+              {
+                  Toast.fire({
+                      icon: 'success',
+                      title: '¡El registro se ha editado con éxito!'
+                  })
 
-                                  $('#modal-crear-proyecto').modal('toggle');
+                  $('#modal-crear-proyecto').modal('toggle');
 
-                                  //actualizar datatable() en la pagina en la que me encuentro
-                                  $('#mitabla').DataTable().ajax.reload(null,false);
+                  //actualizar datatable() en la pagina en la que me encuentro
+                  $('#mitabla').DataTable().ajax.reload(null,false);
 
-                              }
+              }
+            }
+          },
+          error: function (jqXHR, status, err) {
+            console.log(err);
+          },
+        });
+
+                
 
       }
     })
@@ -288,7 +490,8 @@ $(document).ready(function () {
         if ( ( titulo == undefined ) && ( accion == undefined ) )
         {
             titulo = "Crear Proyecto";
-            accion = "crear";            
+            accion = "crear";
+            $('#modal-crear-proyecto').find('#boton-guardar-proyecto').val('Guardar');            
         }
 
         modal.find('.modal-title').text(titulo);

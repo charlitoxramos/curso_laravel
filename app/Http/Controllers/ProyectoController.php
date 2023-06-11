@@ -14,16 +14,32 @@ class ProyectoController extends Controller
     }
 
     public function crear(Request $request){
-        //return $request->all();
         $proyecto = new Proyecto;
-        $proyecto->nombre=$request->input('nombre_proyecto');
-        $proyecto->fuente=$request->input('fuente_fondos');
-        $proyecto->planificado=$request->input('monto_planificado');
-        $proyecto->patrocinado=$request->input('monto_patrocinado');
-        $proyecto->propios=$request->input('monto_fondos_propios');
+        $proyecto->nombre=$request->nombre;
+        $proyecto->fuente=$request->fuente;
+        $proyecto->planificado=$request->planificado;
+        $proyecto->patrocinado=$request->patrocinado;
+        $proyecto->propios=$request->propios;
         $proyecto->save();
-        //return redirect()->back();
-        return "ok"; 
+        return response()->json(['Respuesta'=>'Ok']); 
+    }
+
+    public function editar(Request $request){
+        Proyecto::find($request->id)->update([
+            'nombre' => $request->nombre,
+            'fuente' => $request->fuente,
+            'planificado' => $request->planificado,
+            'patrocinado' => $request->patrocinado,
+            'propios' => $request -> propios,
+        ]);
+        return response()->json(['Respuesta'=>'Ok']); 
+    }
+
+    public function eliminar(Request $request){
+        Proyecto::destroy($request->id);
+        return response()->json(['Respuesta'=>'Ok']);
+        //return back(); 
+        //return $request->all();
     }
 
 }

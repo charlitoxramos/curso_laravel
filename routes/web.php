@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/proyecto/lista',[App\Http\Controllers\ProyectoController::class,'lista']);
 
 Route::post('/proyecto/crear',[App\Http\Controllers\ProyectoController::class,'crear'])->name('proyecto.crear');
+
+Route::put('/proyecto/editar',[App\Http\Controllers\ProyectoController::class,'editar'])->name('proyecto.editar');
+
+Route::delete('/proyecto/eliminar',[App\Http\Controllers\ProyectoController::class,'eliminar'])->name('proyecto.eliminar');
